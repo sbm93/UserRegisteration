@@ -2,6 +2,7 @@ package com.register.dashboard;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.register.db.StoreUser;
+import com.register.demo.User;
 
 /**
  * Servlet implementation class Dashboard
@@ -36,11 +40,18 @@ public class Dashboard extends HttpServlet {
 		HttpSession session=request.getSession(false);  
 		
         if(session!=null){  
-        String name=(String)session.getAttribute("name");  
-        
-        String address = "/view/dashboard.jsp";
-		RequestDispatcher dispatcher = request.getRequestDispatcher(address);
-		dispatcher.forward(request, response);
+	        String email=(String)session.getAttribute("email");  
+	        try {
+				User store = StoreUser.by(email);
+				request.setAttribute("user", store);
+		        String address = "/view/dashboard.jsp";
+				RequestDispatcher dispatcher = request.getRequestDispatcher(address);
+				dispatcher.forward(request, response);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
         }  
         else{  
             out.print("Please login first");  

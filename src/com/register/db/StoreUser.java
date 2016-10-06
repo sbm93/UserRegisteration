@@ -30,7 +30,36 @@ public class StoreUser {
 		conn.close();
 		return true;
 	}
-	
+	public static User by(String em)  throws SQLException, ClassNotFoundException {
+		System.out.println(" ==== > "+ em);
+		Class.forName("org.h2.Driver");
+		Connection conn = DriverManager.
+        		getConnection("jdbc:h2:~/test", "sa", "");
+		
+		String selectQuery = "SELECT * FROM USER WHERE email LIKE ?";
+
+		
+		boolean flag=false;
+	    PreparedStatement ps = conn.prepareStatement(selectQuery);
+	    ps.setString(1,em+"%");
+		ResultSet rs = ps.executeQuery();
+
+		User toReturn = new User(); 
+		while (rs.next()) {
+			toReturn.setAge(rs.getString(3));
+			toReturn.setEmail(rs.getString(6));
+			toReturn.setGender(rs.getString(4));
+//			toReturn.setPassword(pass);
+			toReturn.setPhone(rs.getString(5));
+			toReturn.setUser(rs.getString(1));
+		}
+		rs.close();
+		conn.close();
+//		if(toReturn !== null){
+			return toReturn;
+//		}
+		
+	}
 	public static User find(String em, String pw) throws SQLException, ClassNotFoundException {
 		System.out.println(em + "  " + pw);
 		User user = new User();
