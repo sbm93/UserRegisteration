@@ -6,12 +6,12 @@
 </head>
 <body>
 	<h3>Welcome to user registration</h3>
-	<form action="/UserRegisteration/view/register.html">
+	<form method="GET" action="/UserRegisteration/register">
 	    <input type="submit" value="Register" />
 	</form>
 	
 	<form action="/UserRegisteration/login" method="POST">
-		<p>User Name : <input type="text" id="user" name="user" /></p>
+		<p>Email : <input type="text" id="email" name="email" /></p>
 		
 		<p>Password: <input type="text" id="password" name="password" /></p>
 		<input type="submit" value="Submit" />

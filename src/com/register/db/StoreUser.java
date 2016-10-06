@@ -31,22 +31,22 @@ public class StoreUser {
 		return true;
 	}
 	
-	public static User find(String un, String pw) throws SQLException, ClassNotFoundException {
-		System.out.println(un + "  " + pw);
+	public static User find(String em, String pw) throws SQLException, ClassNotFoundException {
+		System.out.println(em + "  " + pw);
 		User user = new User();
-		user.setUser(un);
+		user.setEmail(em);
 		user.setPassword(pw);
 		
 		Class.forName("org.h2.Driver");
 		Connection conn = DriverManager.
         		getConnection("jdbc:h2:~/test", "sa", "");
 		
-		String selectQuery = "SELECT * FROM USER WHERE user LIKE ?";
+		String selectQuery = "SELECT * FROM USER WHERE email LIKE ?";
 
 		
 		boolean flag=false;
 	    PreparedStatement ps = conn.prepareStatement(selectQuery);
-	    ps.setString(1,un+"%");
+	    ps.setString(1,em+"%");
 		ResultSet rs = ps.executeQuery();
 
 		User toReturn = new User(); 
@@ -56,12 +56,12 @@ public class StoreUser {
 			String ag = rs.getString(3);
 			String gd = rs.getString(4);
 			String ph = rs.getString(5);
-			String em = rs.getString(6);
+			String rem = rs.getString(6);
 
 			if(pass.equals(pw)){
 
 				toReturn.setAge(ag);
-				toReturn.setEmail(em);
+				toReturn.setEmail(rem);
 				toReturn.setGender(gd);
 				toReturn.setPassword(pass);
 				toReturn.setPhone(ph);

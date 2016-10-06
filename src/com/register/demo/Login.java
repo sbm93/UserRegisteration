@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,15 +41,15 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String un = request.getParameter("user").trim();
+		String em = request.getParameter("email").trim();
 		String pw = request.getParameter("password").trim();
 		
-		System.out.println(un+" "+pw);
+		System.out.println(em+" "+pw);
 		
 		User varify;
 		try {
 			PrintWriter out = response.getWriter();
-			varify = StoreUser.find(un, pw);
+			varify = StoreUser.find(em, pw);
 			
 			System.out.println(varify.getUser());
 			
@@ -57,9 +58,16 @@ public class Login extends HttpServlet {
 			} else {
 				
 				HttpSession session=request.getSession(true);				
-		        session.setAttribute("name",varify.getUser());  
+		        session.setAttribute("email",varify.getEmail());
+
 		        session.setAttribute("password",varify.getPassword());  
-				out.println("Varified User " + varify.toString() +" ==== > " + session.getAttribute("name")+ " === > " + session.getAttribute("password"));
+		        
+		        String address = "/UserRegisteration/dashboard";
+		        response.sendRedirect(address);
+		        
+//		        RequestDispatcher rd=request.getRequestDispatcher(address);  
+//		        rd.forward(request, response);
+//				out.println("Varified User " + varify.toString() +" ==== > " + session.getAttribute("email")+ " === > " + session.getAttribute("password"));
 			}
 			System.out.println("varify "+ varify);
 			
