@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.register.db.StoreUser;
 
@@ -54,7 +55,11 @@ public class Login extends HttpServlet {
 			if(varify.getUser() == "Bad Query") {
 				out.println("User name or password is incorrect!! " + varify.toString());
 			} else {
-				out.println("Varified User " + varify.toString());
+				
+				HttpSession session=request.getSession(true);				
+		        session.setAttribute("name",varify.getUser());  
+		        session.setAttribute("password",varify.getPassword());  
+				out.println("Varified User " + varify.toString() +" ==== > " + session.getAttribute("name")+ " === > " + session.getAttribute("password"));
 			}
 			System.out.println("varify "+ varify);
 			

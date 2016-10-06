@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -59,9 +60,11 @@ public class Register extends HttpServlet {
 		try {
 			store = StoreUser.RegisterUser(un, pw, ag, gd, ph, em);
 			PrintWriter out = response.getWriter();
-			if(store == true){				
+			if(store == true){
+				HttpSession session=request.getSession(true);				
+		        session.setAttribute("name",user.getUser());  
 				out.println("In If Condition!! " + user.toString());
-				System.out.println("In If Condition!!");
+				System.out.println("In If Condition!! " + session.getAttribute("name"));
 			} else {
 				out.println("Some Error Occured");
 				
